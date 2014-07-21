@@ -50,7 +50,8 @@ gulp.task('backend', ['jshint'],function () {
   $.nodemon({
     script: 'backend/server.js',
     ext: 'js',
-    ignore: ['gulp/**','node_modules/**', 'test/**', 'dist/**']
+    watch: ['backend/**/*'],
+    ignore: ['node_modules/**']
   })
     .on('change', ['jshint'])
     .on('restart', function () {
