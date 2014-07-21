@@ -1,7 +1,7 @@
-<textarea rows="8" cols="50" ng-model="newPost.body" ></textarea>
+<textarea ng-model="newPost.body" ></textarea>
 
 <button ng-click="createPost(newPost)">Post</button>
 
-<p ng-repeat="post in posts">
-  <strong>{{ post.createdAt | date: 'short' }}</strong> | {{ post.body }} <button ng-click="deletePost($index, post)">X</button>
+<p ng-repeat="post in posts | orderBy: 'createdAt' : true">
+  <strong>{{ post.createdAt | date: 'short' }}</strong> | {{ post.body }} <button ng-click="deletePost(post)">X</button>
 </p>
