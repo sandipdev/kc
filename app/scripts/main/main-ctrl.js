@@ -11,7 +11,7 @@ angular.module('karmaChameleon')
       $http.post('/api/v1/post', newPost)
         .then( function(post) {
           $scope.posts.push(post.data);
-          $scope.newPost.body = '';
+          $scope.newPost = {};
         });
     };
 

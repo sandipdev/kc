@@ -4,7 +4,8 @@ angular.module('karmaChameleon', [
   'ngAnimate',
   'ngCookies',
   'ngSanitize',
-  'ui.router']);
+  'ui.router',
+  'angularMoment']);
 
 angular.module('karmaChameleon')
   .config(function ($locationProvider, $stateProvider, $urlRouterProvider) {

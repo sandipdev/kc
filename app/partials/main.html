@@ -1,7 +1,9 @@
-<textarea ng-model="newPost.body" ></textarea>
-
-<button ng-click="createPost(newPost)">Post</button>
-
-<p ng-repeat="post in posts | orderBy: 'createdAt' : true">
-  <strong>{{ post.createdAt | date: 'short' }}</strong> | {{ post.body }} <button ng-click="deletePost(post)">X</button>
-</p>
+<h1>Karma Chameleon</h1>
+<form name="newPostForm" novalidate>
+  <textarea placeholder="I think..." ng-model="newPost.body" required></textarea>
+  <input type="submit" value="Suggest" ng-click="createPost(newPost)" ng-disabled="newPostForm.$invalid">
+</form>
+<div class="post" ng-repeat="post in posts | orderBy: 'createdAt' : true">
+  <div>{{ post.body }}</div>
+  <div class="time-ago" am-time-ago="post.createdAt"></div>
+</div>

@@ -72,7 +72,7 @@ gulp.task('serve', ['backend', 'watch'], function () {
   ]);
 });
 
-gulp.task('serve:dist', ['build'], function () {
+gulp.task('serve:dist', ['build', 'backend'], function () {
   browserSyncInit('dist');
 });
 
