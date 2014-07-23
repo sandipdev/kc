@@ -7,7 +7,11 @@ angular.module('karmaChameleon')
       $scope.posts = posts.data;
     });
 
-    $scope.createPost = function(newPost) {
+    $scope.createPost = function(e) {
+      if (e.type !== 'click' && e.keyCode !== 13) {
+        return;
+      }
+      var newPost = $scope.newPost;
       $http.post('/api/v1/post', newPost)
         .then( function(post) {
           $scope.posts.push(post.data);
@@ -19,5 +23,11 @@ angular.module('karmaChameleon')
       var index = $scope.posts.indexOf(post);
       $scope.posts.splice(index, 1);
       $http.delete('/api/v1/post/' + post._id);
+    };
+
+    $scope.predicate = '-createdAt';
+
+    $scope.sortClass = function(predicate) {
+      return $scope.predicate === predicate ? 'active' : '';
     };
   });
