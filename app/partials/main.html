@@ -5,11 +5,18 @@
 </form>
 <div class="section-title">
   <h2>Suggestions</h2>
-  <a href ng-class="sortClass('-createdAt')" ng-click="predicate = '-createdAt'">Recent</a> | <a href ng-class="sortClass('createdAt')" ng-click="predicate = 'createdAt'">Popular</a>
+  <a href ng-class="sortClass('-createdAt')" ng-click="predicate = '-createdAt'">Recent</a> | <a href ng-class="sortClass('-score')" ng-click="predicate = '-score'">Popular</a>
 </div>
 <section class="posts">
   <div class="post" ng-repeat="post in posts | orderBy:predicate">
-    <div>{{ post.body }}</div>
-    <div class="time-ago" am-time-ago="post.createdAt"></div>
+    <div class="post-main">
+      <div>{{ post.body }}</div>
+      <div class="time-ago" am-time-ago="post.createdAt"></div>
+    </div>
+    <div class="votes">
+      <div class="score">{{ post.score }}</div>
+      <i class="fa fa-arrow-circle-o-up" ng-click="upVote(post)"></i>
+      <i class="fa fa-arrow-circle-o-down" ng-click="downVote(post)"></i>
+    </div>
   </div>
 </section>

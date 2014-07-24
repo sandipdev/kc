@@ -18,6 +18,15 @@ router.get('/', function(req, res) {
   res.json({ message: 'Welcome to the API' });
 });
 
+router.get('/posts', function(req, res) {
+  Post.find( function(err, posts) {
+    if (err) {
+      res.status(404).send(err);
+    }
+    res.status(200).end(JSON.stringify(posts));
+  });
+});
+
 router.route('/post')
   .post( function(req, res) {
     var post = new Post();
@@ -32,27 +41,31 @@ router.route('/post')
     });
   });
 
-router.route('/post/:postId')
-  .delete( function(req, res) {
-    Post.remove({
-      _id: req.params.postId
-    }, function(err, post) {
-      if (err) {
-        res.status(500).send(err);
-        return;
-      }
-      res.status(200).json( post );
-    });
-  });
-
-router.get('/posts', function(req, res) {
-  Post.find( function(err, posts) {
+router.put('/post/:postId/upVote', function(req, res) {
+  Post.findById(req.params.postId, function(err, post) {
     if (err) {
       res.status(404).send(err);
+      return;
     }
-    res.status(200).json(posts);
+    post.upVotes++;
+    post.save();
+    res.status(200).end(JSON.stringify(post));
   });
 });
+
+router.put('/post/:postId/downVote', function(req, res) {
+  Post.findById(req.params.postId, function(err, post) {
+    if (err) {
+      res.status(404).send(err);
+      return;
+    }
+    post.upVotes--;
+    post.save();
+    res.status(200).end(JSON.stringify(post));
+  });
+});
+
+router.put('/post/:postid');
 
 app.use('/api/v1', router);
 

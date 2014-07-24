@@ -19,10 +19,20 @@ angular.module('karmaChameleon')
         });
     };
 
-    $scope.deletePost = function(post) {
+    $scope.upVote = function(post) {
       var index = $scope.posts.indexOf(post);
-      $scope.posts.splice(index, 1);
-      $http.delete('/api/v1/post/' + post._id);
+      $http.put('/api/v1/post/' + post._id + '/upVote')
+        .then( function(postData) {
+          $scope.posts[index] = postData.data;
+        });
+    };
+
+    $scope.downVote = function(post) {
+      var index = $scope.posts.indexOf(post);
+      $http.put('/api/v1/post/' + post._id + '/downVote')
+        .then( function(postData) {
+          $scope.posts[index] = postData.data;
+        });
     };
 
     $scope.predicate = '-createdAt';
