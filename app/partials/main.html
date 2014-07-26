@@ -14,7 +14,7 @@
       <div class="time-ago" am-time-ago="post.createdAt"></div>
     </div>
     <div class="votes">
-      <div class="score">{{ post.score }}</div>
+      <div class="score">{{ post.upVotes - post.downVotes }}</div>
       <i class="fa fa-arrow-circle-o-up" ng-click="upVote(post)"></i>
       <i class="fa fa-arrow-circle-o-down" ng-click="downVote(post)"></i>
     </div>

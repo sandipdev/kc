@@ -20,18 +20,16 @@ angular.module('karmaChameleon')
     };
 
     $scope.upVote = function(post) {
-      var index = $scope.posts.indexOf(post);
       $http.put('/api/v1/post/' + post._id + '/upVote')
         .then( function(postData) {
-          $scope.posts[index] = postData.data;
+          $scope.posts[$scope.posts.indexOf(post)] = postData.data;
         });
     };
 
     $scope.downVote = function(post) {
-      var index = $scope.posts.indexOf(post);
       $http.put('/api/v1/post/' + post._id + '/downVote')
         .then( function(postData) {
-          $scope.posts[index] = postData.data;
+          $scope.posts[$scope.posts.indexOf(post)] = postData.data;
         });
     };
 

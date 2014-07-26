@@ -23,7 +23,7 @@ router.get('/posts', function(req, res) {
     if (err) {
       res.status(404).send(err);
     }
-    res.status(200).end(JSON.stringify(posts));
+    res.status(200).json(posts);
   });
 });
 
@@ -47,9 +47,9 @@ router.put('/post/:postId/upVote', function(req, res) {
       res.status(404).send(err);
       return;
     }
-    post.upVotes++;
+    post.upVotes += 1;
     post.save();
-    res.status(200).end(JSON.stringify(post));
+    res.status(200).json(post);
   });
 });
 
@@ -59,9 +59,9 @@ router.put('/post/:postId/downVote', function(req, res) {
       res.status(404).send(err);
       return;
     }
-    post.upVotes--;
+    post.downVotes += 1;
     post.save();
-    res.status(200).end(JSON.stringify(post));
+    res.status(200).json(post);
   });
 });
 
