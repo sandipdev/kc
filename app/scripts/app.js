@@ -5,8 +5,10 @@ angular.module('karmaChameleon', [
   'ngCookies',
   'ngSanitize',
   'ui.router',
-  'angularMoment']);
+  'angularMoment',
+  'restangular']);
 
+/* @ngInject */
 angular.module('karmaChameleon')
   .config(function ($locationProvider, $stateProvider, $urlRouterProvider) {
     $locationProvider.html5Mode(true);
@@ -14,10 +16,19 @@ angular.module('karmaChameleon')
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: 'partials/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'partials/suggestion.html',
+        controller: 'SuggestionCtrl',
+        controllerAs: 'ctrl'
       });
 
     $urlRouterProvider.otherwise('/');
-  })
-;
+  });
+
+/* @ngInject */
+angular.module('karmaChameleon')
+  .config(function (RestangularProvider) {
+    RestangularProvider.setBaseUrl('/api/v1');
+    RestangularProvider.setRestangularFields({
+      id: '_id'
+    });
+  });

@@ -11,7 +11,7 @@ gulp.task('webdriver-update', $.protractor.webdriver_update);
 
 gulp.task('webdriver-standalone', $.protractor.webdriver_standalone);
 
-gulp.task('protractor-only', ['webdriver-update', 'wiredep'], function (done) {
+gulp.task('protractor-only', ['webdriver-update', 'wiredep', 'backend'], function (done) {
   var testFiles = [
     'test/e2e/**/*.js'
   ];
@@ -27,6 +27,7 @@ gulp.task('protractor-only', ['webdriver-update', 'wiredep'], function (done) {
     .on('end', function () {
       // Close browser sync server
       browserSync.exit();
+      $.nodemon.emit('quit');
       done();
     });
 });
