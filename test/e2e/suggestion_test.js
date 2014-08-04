@@ -21,6 +21,17 @@ describe('The main view', function () {
     expect(textArea.getAttribute('value')).toEqual('');
   });
 
+  it('allows visitors to suggest by pressing enter', function () {
+    textArea.sendKeys('I am about to press ENTER to suggest', protractor.Key.ENTER);
+    expect(lastSuggestion.getText()).toContain('I am about to press ENTER to suggest');
+    expect(textArea.getAttribute('value')).toEqual('');
+  });
+
+  it('does not suggest when visitors press shift + enter', function () {
+    textArea.sendKeys('I want to keep writing,', protractor.Key.chord(protractor.Key.SHIFT, protractor.Key.ENTER));
+    expect(textArea.getAttribute('value')).toEqual('I want to keep writing,\n');
+  })
+
   it('displays how long ago a suggestion was made', function () {
     textArea.sendKeys('I just made this suggestion.');
     submitButton.click();

@@ -1,6 +1,21 @@
 'use strict';
 
 describe('Suggestion', function () {
+  var validEvent = {
+    keyCode: 13,
+    shiftKey: false
+  };
+
+  var validEventWithShift = {
+    keyCode: 13,
+    shiftKey: true
+  };
+
+  var invalidEvent = {
+    keyCode: 66,
+    shiftKey: false
+  };
+
   var suggestions = {
     data: [
       {
@@ -58,11 +73,36 @@ describe('Suggestion', function () {
 
     it('creates new suggestions', function() {
       spyOn(SuggestionSvc, 'save').andCallThrough();
-      SuggestionCtrl.createSuggestion(newSuggestion);
+      SuggestionCtrl.createSuggestion();
       deferred.resolve(newSuggestion);
       scope.$root.$digest();
       expect(SuggestionSvc.save).toHaveBeenCalled();
       expect(SuggestionCtrl.newSuggestion.body).toEqual('');
+    });
+
+    it('creates new suggestions given an enter keyCode', function () {
+      spyOn(SuggestionSvc, 'save').andCallThrough();
+      SuggestionCtrl.createSuggestion(validEvent);
+      deferred.resolve(newSuggestion);
+      scope.$root.$digest();
+      expect(SuggestionSvc.save).toHaveBeenCalled();
+      expect(SuggestionCtrl.newSuggestion.body).toEqual('');
+    });
+
+    it('does not create a new suggestion given an non-enter keyCode', function () {
+      spyOn(SuggestionSvc, 'save').andCallThrough();
+      SuggestionCtrl.createSuggestion(invalidEvent);
+      deferred.resolve(newSuggestion);
+      scope.$root.$digest();
+      expect(SuggestionSvc.save).not.toHaveBeenCalled();
+    });
+
+    it('does not create a new suggestion given an enter keyCode with the shiftKey', function () {
+      spyOn(SuggestionSvc, 'save').andCallThrough();
+      SuggestionCtrl.createSuggestion(validEventWithShift);
+      deferred.resolve(newSuggestion);
+      scope.$root.$digest();
+      expect(SuggestionSvc.save).not.toHaveBeenCalled();
     });
   });
 

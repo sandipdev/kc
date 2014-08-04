@@ -1,7 +1,7 @@
 <h1>Karma Chameleon</h1>
 <form name="createSuggestionForm" novalidate>
-  <textarea placeholder="I think..." ng-model="ctrl.newSuggestion.body" required ng-minlength="10"></textarea>
-  <input type="submit" value="Suggest" ng-click="ctrl.createSuggestion(ctrl.newSuggestion)" ng-disabled="createSuggestionForm.$invalid">
+  <textarea placeholder="I think..." ng-model="ctrl.newSuggestion.body" required ng-minlength="10" ng-keydown="ctrl.createSuggestion($event)"></textarea>
+  <input type="submit" value="Suggest" ng-click="ctrl.createSuggestion()" ng-disabled="createSuggestionForm.$invalid">
 </form>
 <div class="section-title">
   <h2>Suggestions</h2>
