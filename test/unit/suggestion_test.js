@@ -19,14 +19,14 @@ describe('Suggestion', function () {
   var suggestions = {
     data: [
       {
-        id: '1',
+        _id: '1',
         body: 'I think...',
         createdAt: new Date(),
         upVotes: 3,
         downVotes: 4
       },
       {
-        id: '2',
+        _id: '2',
         body: 'Instead of...',
         createdAt: new Date(),
         upVotes: 2,
@@ -48,6 +48,10 @@ describe('Suggestion', function () {
         return deferred.promise;
       },
       save: function () {
+        deferred = q.defer();
+        return deferred.promise;
+      },
+      vote: function () {
         deferred = q.defer();
         return deferred.promise;
       }
@@ -104,6 +108,17 @@ describe('Suggestion', function () {
       scope.$root.$digest();
       expect(SuggestionSvc.save).not.toHaveBeenCalled();
     });
+    it('records upvotes on suggestions', function () {
+      var suggestion = suggestions.data[0];
+      var e = jasmine.createSpyObj('e', ['stopPropagation']);
+      spyOn(SuggestionSvc, 'vote').andCallThrough();
+      SuggestionCtrl.recordVote('up', suggestion, e);
+      deferred.resolve(suggestion);
+      scope.$root.$digest();
+      expect(e.stopPropagation).toHaveBeenCalled();
+      expect(SuggestionSvc.vote).toHaveBeenCalledWith('up', suggestion);
+    });
+
   });
 
 
@@ -136,6 +151,19 @@ describe('Suggestion', function () {
       httpBackend.flush();
       expect(SuggestionSvc.suggestions.length).toEqual(initialSuggestionCount + 1);
     });
+
+    it('votes on suggestions', function () {
+      var suggestion = suggestions.data[0];
+      var updatedSuggestion = suggestions.data[0];
+      updatedSuggestion = updatedSuggestion.upVotes++;
+      var direction = 'up';
+      httpBackend.expectPOST('/api/v1/suggestions/' + suggestion._id + '/' + direction)
+        .respond(200, updatedSuggestion);
+      SuggestionSvc.vote(direction, suggestion);
+      httpBackend.flush();
+      expect(SuggestionSvc.suggestions[SuggestionSvc.suggestions.indexOf(suggestion)]).toEqual(updatedSuggestion);
+    })
+
   });
 
 });

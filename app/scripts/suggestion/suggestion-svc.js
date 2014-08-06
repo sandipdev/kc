@@ -11,6 +11,7 @@ function SuggestionSvc(Restangular) {
   var model = this;
   model.all = all;
   model.save = save;
+  model.vote = vote;
 
   function all() {
     return _baseSuggestions.getList()
@@ -23,6 +24,13 @@ function SuggestionSvc(Restangular) {
     return _baseSuggestions.post(newSuggestion)
     .then(function(data) {
       model.suggestions.push(data);
+    });
+  }
+
+  function vote(direction, suggestion) {
+    return Restangular.one('suggestions', suggestion._id).doPOST({}, direction)
+    .then(function(data) {
+      model.suggestions[model.suggestions.indexOf(suggestion)] = data;
     });
   }
 

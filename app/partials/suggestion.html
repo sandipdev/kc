@@ -13,7 +13,8 @@
       <div class="time-ago" am-time-ago="suggestion.createdAt" title="{{ suggestion.createdAt | amCalendar }}"></div>
     </div>
     <div class="votes">
-      <!-- TODO voting -->
+      <div>{{ suggestion.score }}</div>
+      <button class="upvote" ng-click="ctrl.recordVote('up', suggestion, $event)">Like</button>
     </div>
   </div>
 </section>

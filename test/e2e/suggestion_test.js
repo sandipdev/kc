@@ -49,4 +49,12 @@ describe('The main view', function () {
     expect(submitButton.isEnabled()).toBeTruthy();
   });
 
+  it('allows users to upvote a suggesiton but only once', function () {
+    textArea.sendKeys('[Insert idea is worth upvoting]', protractor.Key.ENTER);
+    suggestions.last().$('.upvote').click();
+    expect(suggestions.last().element(by.binding('suggestion.score')).getText()).toEqual('1');
+    suggestions.last().$('.upvote').click();
+    expect(suggestions.last().element(by.binding('suggestion.score')).getText()).toEqual('1');
+  });
+
 });

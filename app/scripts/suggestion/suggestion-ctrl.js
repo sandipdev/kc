@@ -27,5 +27,13 @@ function SuggestionCtrl(SuggestionSvc) {
       });
   };
 
+  vm.recordVote = function(direction, suggestion, e) {
+    e.stopPropagation();
+    SuggestionSvc.vote(direction, suggestion)
+    .then(function () {
+      vm.suggestion = SuggestionSvc.suggestions;
+    });
+  };
+
   vm.init();
 }
